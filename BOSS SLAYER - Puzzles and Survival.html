@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BOSS SLAYER</title>
+</head>
+<body>
+  <h1>BOSS SLAYER - Puzzles and Survival</h1>
+  <form id="variableForm">
+    <label for="base">Base:</label>
+    <input type="text" id="base" name="base" required><br>
+
+    <label for="hq">HQ:</label>
+    <input type="text" id="hq" name="hq" required><br>
+
+    <label for="lair">Lair:</label>
+    <input type="text" id="lair" name="lair" required><br>
+
+    <label for="cap">5-Star Cap:</label>
+    <input type="text" id="cap" name="cap" required><br>
+      
+    <label for="template">Template (OPTIONAL):</label>
+    <textarea id="template" rows="10"></textarea><br><br>
+      
+      <div style="font-size:12px"><h3>Variable names for template input:</h3>
+<b>Base:</b><br>${base}<br><b>HQ Goal 1:</b><br>${hqgoal1}<br><b>HQ Goal 2:</b><br>${hqgoal2}<br><b>HQ Payout Tier 1:</b><br>${hqtier1}<br><b>HQ Payout Tier 2:</b><br>${hqtier2}<br><b>Lair Goal 1:</b><br>${lairgoal1}<br><b>Lair Goal 2:</b><br>${lairgoal2}<br><b>Lair Goal 3:</b><br>${lairgoal3}<br><b>Lair Payout Tier 1:</b><br>${lairtier1}<br><b>Lair Payout Tier 2:</b><br>${lairtier2}<br><b>Lair Payout Tier 3:</b><br>${lairtier3}<br><br></div>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <h2>Result:</h2>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("variableForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+    
+        document.getElementById("template").value = "Guaranteed base upon completion of deliverables: $${base}<br>Additional payout when viewers reach Headquarters Level 5: ${hqtier1} at ${hqgoal1}, increases to ${hqtier2} at ${hqgoal2}<br>Additional payout when viewers join any clan and raid a Zombie Lair: ${lairtier1} at ${lairgoal1}, increases to ${lairtier2} at ${lairgoal2}, increases to ${lairtier3} at ${lairgoal3}<br>Additional payout when viewers obtain a 5-star hero: $14 each, capped at ${cap}";
+      
+      // Get user input values
+      const base = document.getElementById("base").value;
+      const hq = document.getElementById("hq").value;
+      const lair = document.getElementById("lair").value;
+      const cap = document.getElementById("cap").value;
+      const template = document.getElementById("template").value;
+
+      // Parse HQ variables
+      const [hqgoal1, hqgoal2, hqtier1, hqtier2] = hq.split(/[\/-]/).map(variable => variable.trim());
+      
+      // Parse Lair variables
+      const [lairgoal1, lairgoal2, lairgoal3, lairtier1, lairtier2, lairtier3] = lair.split(/[\/-]/).map(variable => variable.trim());
+
+      // Generate result string
+      const result = template.replace('${base}', base)
+                                .replace('${hqgoal1}', hqgoal1)
+                                .replace('${hqgoal2}', hqgoal2)
+                                .replace('${hqtier1}', hqtier1)
+                                .replace('${hqtier2}', hqtier2)
+                                .replace('${lairgoal1}', lairgoal1)
+                                .replace('${lairgoal2}', lairgoal2)
+                                .replace('${lairgoal3}', lairgoal3)
+                                .replace('${lairtier1}', lairtier1)
+                                .replace('${lairtier2}', lairtier2)
+                                .replace('${lairtier3}', lairtier3)
+                                .replace('${cap}', cap);
+      // Display the result
+      document.getElementById("result").innerHTML = result;
+    });
+  </script>
+</body>
+</html>
